@@ -8,6 +8,8 @@
 <%@ page import="com.google.appengine.api.datastore.DatastoreService" %>
 <%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory" %>
 <%@ page import="com.google.appengine.api.datastore.EntityNotFoundException" %>
+<%@ page import="com.google.appengine.api.datastore.PreparedQuery" %>
+<%@ page import="com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException" %>
 
 <html lang="en">
 <head>
@@ -24,23 +26,16 @@
     
 </head>
 <body>
-<%	UserService u_service = UserServiceFactory.getUserService();
+<%
+	UserService u_service = UserServiceFactory.getUserService();			
     User currentUser = u_service.getCurrentUser();
-    boolean exists;
-    
-    if(currentUser==null) 
-    	exists = false;
-    else
-    	exists = true;
-    	
-	if(!exists)
-		response.sendRedirect("./homepage.jsp");    	
+           
 %>
 <div id="bg">
 <div id="page-header">
     <div class="container_12">
         <div class="grid_12">
-            <a href="homepage.html"><img src="images/logo-banner.jpg" height="156" width="924" alt="Google Summer of Code" /></a>
+            <a href="homepage.jsp"><img src="images/logo-banner.jpg" height="156" width="924" alt="Google Summer of Code" /></a>
         </div>
     </div>
 </div>
@@ -66,8 +61,8 @@
         -->
         <div id="main-menu" class="grid_3">
             <ul id="main-menu-list">
-                <li id="menu-login"><a href="<%=u_service.createLogoutURL(request.getRequestURI())%>">Logout</a></li>
-                <li id="menu-about"><a href="javascript:void(0)">About</a></li>                                
+                <li id="menu-login"><a href="<%=u_service.createLogoutURL(request.getRequestURI())%>">Logout</a></li>                
+                <li id="menu-about"><a href="javascript:void(0)">About</a></li>                                                
                 <li id="menu-events"><a href="javascript:void(0)">Events &amp; Updates</a></li>                
             </ul>
         </div>
@@ -103,17 +98,31 @@
             	
             	    <h2 id="form-register-title">Update Information</h2> <p id="form-register-req" class="req">* fields required</p>
 <% 	Entity entity = null;
-	DatastoreService data = DatastoreServiceFactory.getDatastoreService();
-	Key key = KeyFactory.createKey("emailKey",currentUser.getEmail());
+	DatastoreService data = null;
+	Key key = null;
 	boolean newEntity = false;
-	try{
-	entity = data.get(key);
-	} catch(EntityNotFoundException ex){	
-	newEntity = true;
-	}	
-	
-	if(newEntity)
+	try{	
+	data = DatastoreServiceFactory.getDatastoreService();
+	key = KeyFactory.createKey("emailKey",currentUser.getEmail());	
+	}catch(Exception e)
 	{
+	response.sendRedirect("homepage.jsp");
+	}
+	try
+	{
+		Query query = new Query(key);
+		PreparedQuery pQuery = data.prepare(query);
+		entity = pQuery.asSingleEntity();
+	}
+	catch(Exception ex)
+	{	
+		out.print(ex.getMessage());
+		newEntity = true;	
+	}
+	if(entity==null)
+		newEntity = true;
+					
+	if(newEntity){
 %>            	
                 	<fieldset id="form-register-fieldset-basicinfo" class="fieldset-basicinfo">
 			    <legend><span>Personal Information</span></legend>
@@ -125,12 +134,7 @@
                 			<label>ID Number<span class="req">*</span></label>
                 			<input type="text" name="id" value="" class="text" />
                 		</div>       		                		                	
-				<div id="form-row-email" class="row email error">
-                			<label>Email Address<span class="req">*</span></label>
-                			<input type="text" name="email" value="" class="text" />
-					<div class="error-message">*Enter a valid email address</div>
-                		</div>
-                		<div id="form-row-phone" class="row phone">
+						<div id="form-row-phone" class="row phone">
                 			<label>Phone Number<span class="req">*</span></label>
                 			<input type="text" name="phone" value="" class="text" />
                 		</div>                		
@@ -174,7 +178,7 @@
                 		</div>
                 	</fieldset>
 <% } else { %>
-					    	<fieldset id="form-register-fieldset-basicinfo" class="fieldset-basicinfo">
+				    	<fieldset id="form-register-fieldset-basicinfo" class="fieldset-basicinfo">
 			    <legend><span>Personal Information</span></legend>
                 		<div id="form-row-fname" class="row fname">
                 			<label>Name<span class="req">*</span></label>
@@ -183,12 +187,7 @@
                 		<div id="form-row-lname" class="row lname">
                 			<label>ID Number<span class="req">*</span></label>
                 			<input type="text" name="id" value="<%=entity.getProperty("id")%>" class="text" />
-                		</div>       		                		                	
-				<div id="form-row-email" class="row email error">
-                			<label>Email Address<span class="req">*</span></label>
-                			<input type="text" name="email" value="<%=entity.getProperty("email")%>" class="text" />
-					<div class="error-message">*Enter a valid email address</div>
-                		</div>
+                		</div>       		                		                					
                 		<div id="form-row-phone" class="row phone">
                 			<label>Phone Number<span class="req">*</span></label>
                 			<input type="text" name="phone" value="<%=entity.getProperty("phone")%>" class="text" />
@@ -231,7 +230,7 @@
                 			<label>Electronics Experience<span class="req">*</span></label>
                 			<textarea name="eExp" class="text" rows="4" cols="50"><%=entity.getProperty("eExp")%></textarea>
                 		</div>
-                	</fieldset>
+                	</fieldset>	
 <%}%>                
             	    <div id="form-register-fieldset-button-row" class="row button-row">
             		    <input id="form-register-submit" type="submit" value="Submit" class="submit" />

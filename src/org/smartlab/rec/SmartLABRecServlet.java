@@ -3,6 +3,8 @@ package org.smartlab.rec;
 import java.io.IOException;
 import javax.servlet.http.*;
 
+
+
 @SuppressWarnings("serial")
 public class SmartLABRecServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -10,4 +12,5 @@ public class SmartLABRecServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Hello, world");
 	}
+	
 }

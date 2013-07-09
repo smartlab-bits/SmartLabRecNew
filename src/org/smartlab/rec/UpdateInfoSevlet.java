@@ -14,6 +14,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -28,19 +31,30 @@ public class UpdateInfoSevlet extends HttpServlet {
 		if(user!=null)
 		{
 			DatastoreService store = DatastoreServiceFactory.getDatastoreService();
-			Key key = KeyFactory.createKey("emailKey", user.getEmail());
+			Key key = KeyFactory.createKey("emailKey", user.getEmail());			
 			Entity entity = null;
 			try{
-				entity = store.get(key);
-			}catch(EntityNotFoundException ex)
+				Query query = new Query(key);
+				PreparedQuery pQuery = store.prepare(query);
+				entity = pQuery.asSingleEntity();				
+			}catch(TooManyResultsException ex)
+			{				
+				System.exit(0);
+			}
+			if(entity==null)
 			{
-				entity = new Entity(key);
+				entity = new Entity("reg",key);
+				entity.setProperty("correctData",String.valueOf(false));
+				entity.setProperty("round1",String.valueOf(false));
+				entity.setProperty("round2",String.valueOf(false));
+				entity.setProperty("round3",String.valueOf(false));
+				entity.setProperty("final",String.valueOf(false));
 			}
 			entity.setProperty("name",req.getParameter("name"));
 			entity.setProperty("id",req.getParameter("id"));
 			entity.setProperty("phone",req.getParameter("phone"));
 			entity.setProperty("room", req.getParameter("room"));
-			entity.setProperty("email",req.getParameter("email"));
+			entity.setProperty("email",user.getEmail());
 			entity.setProperty("progExp",req.getParameter("progExp"));
 			entity.setProperty("eExp",req.getParameter("eExp"));
 			String s = req.getParameter("bhavan");
@@ -58,7 +72,7 @@ public class UpdateInfoSevlet extends HttpServlet {
 			bhavanMap.put("11", "MALAVIYA");
 			bhavanMap.put("12", "MEERA");
 			entity.setProperty("bhavan", bhavanMap.get(s));
-			store.put(entity);
+			store.put(entity);			
 		}
 		
 		resp.sendRedirect("./updated.jsp");		

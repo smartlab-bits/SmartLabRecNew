@@ -25,12 +25,18 @@
     	exists = false;
     else
     	exists = true;
+    
+    if(exists)
+    	if(currentUser.getEmail().equals("xyz@gmail.com"))
+    		response.sendRedirect("admin.jsp");
+    
+    
 %>
 <div id="bg">
 <div id="page-header">
     <div class="container_12">
         <div class="grid_12">            
-            <a href="homepage.html"><img src="images/logo-banner.jpg" height="156" width="924" alt="SmartLAB" /></a>
+            <a href="homepage.jsp"><img src="images/logo-banner.jpg" height="156" width="924" alt="SmartLAB" /></a>
         </div>
     </div>
 </div>
@@ -53,11 +59,12 @@
             <ul id="main-menu-list">
 <%	if(exists){	%>           
                 <li id="menu-login"><a href="<%=u_service.createLogoutURL(request.getRequestURI())%>">Logout</a></li>
+                                <li id="menu-apply"><a href="./updateInformation.jsp">Update Information</a></li>
 <%	}	else{ %>              
 				<li id="menu-login"><a href="<%=u_service.createLoginURL(request.getRequestURI())%>">Login</a></li>
 <% } %>				
                 <li id="menu-about"><a href="javascript:void(0)">About</a></li>
-                <li id="menu-apply"><a href="./updateInformation.jsp">Update Information</a></li>
+
                 <li id="menu-events"><a href="javascript:void(0)">Updates - TimeLine</a></li>                
             </ul>
         </div>
@@ -94,7 +101,7 @@
                     </div>
                 </div>
                 <!-- .home-block-1 -->
-                
+<% if(exists){ %>                
                 <div class="content_column_1">
                     <!-- begin block -->
                     <div id="apply-students" class="block block-students">                        
@@ -104,6 +111,7 @@
                     </div>
                     <!-- end block -->                    
                 </div>
+<%}%>              
                 <!-- .content_column_1 -->
                 
                 <div class="content_column_2">                    

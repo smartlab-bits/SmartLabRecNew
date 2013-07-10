@@ -49,6 +49,7 @@ public class UpdateInfoSevlet extends HttpServlet {
 				entity.setProperty("round2",String.valueOf(false));
 				entity.setProperty("round3",String.valueOf(false));
 				entity.setProperty("final",String.valueOf(false));
+				entity.setProperty("pMessage", null);
 			}
 			entity.setProperty("name",req.getParameter("name"));
 			entity.setProperty("id",req.getParameter("id"));

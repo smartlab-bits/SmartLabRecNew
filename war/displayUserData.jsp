@@ -27,9 +27,12 @@
 <%}else{%> 
 	<label><input type="checkbox"  name="round3">Round3?</label>
 <%}if(Boolean.parseBoolean(entity.getProperty("final").toString())){%>
-	<label><input checked=checked type="checkbox"  name="final">Round3?</label>
+	<label><input checked=checked type="checkbox"  name="final">Final?</label>
 <%}else{%> 
-	<label><input type="checkbox"  name="final">Round3?</label>
+	<label><input type="checkbox"  name="final">Final?</label>
+<%}%>
+	<label><textarea name="pMessage" rows="5" cols="50"></textarea></label>
+	<label><input type="checkbox"  name="sendMessage">Send Personal Message?</label>
 <input type="submit" value="commit changes">
 </form>
-<%}%>	
+	

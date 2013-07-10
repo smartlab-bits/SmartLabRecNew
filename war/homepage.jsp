@@ -27,7 +27,7 @@
     	exists = true;
     
     if(exists)
-    	if(currentUser.getEmail().equals("xyz@gmail.com"))
+    	if(currentUser.getEmail().equals("rajaths.rajaths@gmail.com"))
     		response.sendRedirect("admin.jsp");
     
     
@@ -59,13 +59,15 @@
             <ul id="main-menu-list">
 <%	if(exists){	%>           
                 <li id="menu-login"><a href="<%=u_service.createLogoutURL(request.getRequestURI())%>">Logout</a></li>
-                                <li id="menu-apply"><a href="./updateInformation.jsp">Update Information</a></li>
+                <li id="menu-apply"><a href="./updateInformation.jsp">Update Information</a></li>
+                <li id="menu-events"><a href="/notifyUser">Notifications</a></li>
 <%	}	else{ %>              
 				<li id="menu-login"><a href="<%=u_service.createLoginURL(request.getRequestURI())%>">Login</a></li>
 <% } %>				
-                <li id="menu-about"><a href="javascript:void(0)">About</a></li>
+                <li id="menu-about"><a href="./about.html">About</a></li>
+                <li id="menu-about"><a href="./about.html">Connect With Us</a></li>
 
-                <li id="menu-events"><a href="javascript:void(0)">Updates - TimeLine</a></li>                
+                
             </ul>
         </div>
         <!-- .grid_3 -->
@@ -159,7 +161,7 @@
             <div class="grid_9">
                 <div class="footer-menu">
                     <ul id="footer-menu-list">
-                        <li id="footer-menu-about"><a href="javascript:void(0)">About</a></li>
+                        <li id="footer-menu-about"><a href="./about.html">About</a></li>
                         <li id="footer-menu-contact"><a href="javascript:void(0)">Contact</a></li>
                         <li id="footer-menu-facebook" class="social"><a href="javascript:void(0)" class="fb">Facebook</a></li>
                         <li id="footer-menu-twitter" class="social"><a href="javascript:void(0)" class="tw">Twitter</a></li>                        

@@ -47,14 +47,15 @@ public class UserPageServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-						
+								
 		PrintWriter pWriter = resp.getWriter();
 		resp.setContentType("text/html");
 		
 		DatastoreService store = DatastoreServiceFactory.getDatastoreService();
 		
 		String bName = (String) req.getParameter("searchSubmit");
-		
+		String bName1 = (String) req.getParameter("uploadSpreadSheet");
+		String bName2 = (String) req.getParameter("downloadSpreadSheet");
 		if(bName.equals("Search"))
 		{
 			String email = req.getParameter("search");
@@ -67,9 +68,19 @@ public class UserPageServlet extends HttpServlet {
 			}
 			else
 			{
+				req.setAttribute("entity", entity);
+				req.setAttribute("email", email);
 				req.getRequestDispatcher("./displayUserData.jsp").forward(req, resp);
 			}
-		}	
+		}
+		if(bName1.equalsIgnoreCase("Upload"))
+		{
+			//resp.setContentType(arg0)
+		}
+		if(bName2.equalsIgnoreCase("Download"))
+		{
+			
+		}
 	}
 }
 

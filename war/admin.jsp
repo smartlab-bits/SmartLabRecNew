@@ -57,7 +57,7 @@
 	
 	if(user!=null)
 	{	
-		if(!user.getEmail().equals("xyz@gmail.com"))
+		if(!user.getEmail().equals("rajaths.rajaths@gmail.com"))
 			response.sendRedirect("./homepage.jsp");
 	}
 	else
@@ -74,7 +74,7 @@
         <div id="main-menu" class="grid_3">
             <ul id="main-menu-list">
                 <li id="menu-login"><a href="<%=uService.createLogoutURL(request.getRequestURI())%>">Logout</a></li>
-                <li id="menu-about"><a href="javascript:void(0)">About</a></li>                                
+                <li id="menu-about"><a href="./about.html">About</a></li>                                
                 <li id="menu-connect"><a href="javascript:void(0)">Connect With Us</a></li>                
             </ul>
         </div>
@@ -107,6 +107,12 @@
                         </div>                        
                         <div id="form-row-button-row" class="row button-row">
                             <input name="searchSubmit" formaction="/userPage" formmethod="post" id="form-search-submit" type="submit" value="Search" class="submit"/>
+                        </div>
+                        <div id="form-row-button-row" class="row button-row">
+                            <input name="uploadSpreadSheet" formaction="/userPage" formmethod="post" id="form-search-submit" type="submit" value="Upload" class="submit"/>
+                        </div>
+                        <div id="form-row-button-row" class="row button-row">
+                            <input name="downloadSpreadSheet" formaction="/userPage" formmethod="post" id="form-search-submit" type="submit" value="Download" class="submit"/>
                         </div>
                         </fieldset>
                         <div id="form-row-search-note" class="row search-note">

@@ -62,7 +62,7 @@
         <div id="main-menu" class="grid_3">
             <ul id="main-menu-list">
                 <li id="menu-login"><a href="<%=u_service.createLogoutURL(request.getRequestURI())%>">Logout</a></li>                
-                <li id="menu-about"><a href="javascript:void(0)">About</a></li>                                                
+                <li id="menu-about"><a href="./about.html">About</a></li>                                                
                 <li id="menu-events"><a href="javascript:void(0)">Events &amp; Updates</a></li>                
             </ul>
         </div>
@@ -270,7 +270,7 @@
             <div class="grid_9">
                 <div class="footer-menu">
                     <ul id="footer-menu-list">
-                        <li id="footer-menu-about"><a href="javascript:void(0)">About</a></li>
+                        <li id="footer-menu-about"><a href="./about.html">About</a></li>
                         <li id="footer-menu-contact"><a href="javascript:void(0)">Contact</a></li>
                         <li id="footer-menu-facebook" class="social"><a href="javascript:void(0)" class="fb">Facebook</a></li>
                         <li id="footer-menu-twitter" class="social"><a href="javascript:void(0)" class="tw">Twitter</a></li>                        

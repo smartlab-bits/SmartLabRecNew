@@ -9,6 +9,7 @@
 <%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory" %>
 <%@ page import="com.google.appengine.api.datastore.EntityNotFoundException" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.appengine.api.datastore.FetchOptions" %>
 
 <html lang="en">
@@ -54,10 +55,14 @@
 -->
 <% 	UserService uService = UserServiceFactory.getUserService();
 	User user = uService.getCurrentUser();
-	
+	List<String> admins = new ArrayList<String>();
+	admins.add("rajaths.rajaths@gmail.com");
+	admins.add("varadgautam@gmail.com");
+	admins.add("prannoyp.1994@gmail.com");
+    
 	if(user!=null)
 	{	
-		if(!user.getEmail().equals("rajaths.rajaths@gmail.com"))
+		if(admins.contains(user.getEmail())==false)
 			response.sendRedirect("./homepage.jsp");
 	}
 	else
@@ -107,12 +112,9 @@
                         </div>                        
                         <div id="form-row-button-row" class="row button-row">
                             <input name="searchSubmit" formaction="/userPage" formmethod="post" id="form-search-submit" type="submit" value="Search" class="submit"/>
-                        </div>
+                        </div>                        
                         <div id="form-row-button-row" class="row button-row">
-                            <input name="uploadSpreadSheet" formaction="/userPage" formmethod="post" id="form-search-submit" type="submit" value="Upload" class="submit"/>
-                        </div>
-                        <div id="form-row-button-row" class="row button-row">
-                            <input name="downloadSpreadSheet" formaction="/userPage" formmethod="post" id="form-search-submit" type="submit" value="Download" class="submit"/>
+                            <input name="downloadSpreadSheet" formaction="/download" formmethod="get" id="form-search-submit" type="submit" value="Download" class="submit"/>
                         </div>
                         </fieldset>
                         <div id="form-row-search-note" class="row search-note">

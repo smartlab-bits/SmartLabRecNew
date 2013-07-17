@@ -3,6 +3,7 @@
 <%@ page import="com.google.appengine.api.users.User" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html lang="en">
@@ -20,6 +21,10 @@
 <%	UserService u_service = UserServiceFactory.getUserService();
     User currentUser = u_service.getCurrentUser();
     boolean exists;
+	List<String> admins = new ArrayList<String>();
+	admins.add("rajaths.rajaths@gmail.com");
+	admins.add("varadgautam@gmail.com");
+	admins.add("prannoyp.1994@gmail.com");
     
     if(currentUser==null) 
     	exists = false;
@@ -27,7 +32,7 @@
     	exists = true;
     
     if(exists)
-    	if(currentUser.getEmail().equals("rajaths.rajaths@gmail.com"))
+    	if(admins.contains(currentUser.getEmail()))
     		response.sendRedirect("admin.jsp");
     
     
